@@ -6,10 +6,36 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
-d2run :: proc (p1, p2, p3: ^strings.Builder) {
-    fmt.println(P1_IN);
+separators :: " .,"
 
-    strings.write_string(p1, "Upcoming...");
+d2run :: proc (p1, p2, p3: ^strings.Builder) {
+    lines := strings.split(P1_IN, "\n\n");
+    words, text := strings.split(lines[0][6:], ","), lines[1];
+    fmt.printfln("    [EC] words: %v", words);
+    fmt.printfln("    [EC] text: %v", text);
+
+    p1_count := 0;
+    start, end := 0, 1;
+    for start < len(text) {
+        end = strings.index_any(text[start:], separators);
+        if end == -1 {
+            end = len(text)-start;
+        }
+
+        section := text[start:start+end];
+        //fmt.printfln("    [EC] current: '%v'", section);
+        for i in 0..<len(section)-1 do for w in words {
+            if i+len(w) > len(section) do continue;
+            check := section[i:i+len(w)];
+            if strings.compare(check, w) == 0 {
+                p1_count += 1;
+            }
+        }
+
+        start = start+end+1
+    }
+
+    strings.write_int(p1, p1_count);
     strings.write_string(p2, "Upcoming...");
     strings.write_string(p3, "Upcoming...");
 
