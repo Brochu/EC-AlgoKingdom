@@ -6,13 +6,19 @@ import "core:strconv"
 import "core:strings"
 import rl "vendor:raylib"
 
-separators :: " .,"
+@(private="file")
+separators :: " .,";
+
+@(private="file")
+Phantom :: struct {};
 
 d2run :: proc (p1, p2, p3: ^strings.Builder) {
-    lines := strings.split(P1_IN, "\n\n");
+    p1_input := strings.trim(#load(P1_IN, string), "\r\n");
+    p2_input := strings.trim(#load(P2_IN, string), "\r\n");
+    p3_input := strings.trim(#load(P3_IN, string), "\r\n");
+
+    lines := strings.split(p1_input, "\r\n\r\n");
     words, text := strings.split(lines[0][6:], ","), lines[1];
-    fmt.printfln("    [EC] words: %v", words);
-    fmt.printfln("    [EC] text: %v", text);
 
     p1_count := 0;
     start, end := 0, 1;
@@ -36,7 +42,27 @@ d2run :: proc (p1, p2, p3: ^strings.Builder) {
     }
 
     strings.write_int(p1, p1_count);
-    strings.write_string(p2, "Upcoming...");
+    fmt.println("    -------------------------");
+
+    lines = strings.split(p2_input, "\r\n\r\n");
+    words, text = strings.split(lines[0][6:], ","), lines[1];
+
+    p2_count := 0
+    found := make(map[int]Phantom);
+    for i in 0..<len(text) do for w in words {
+        if i+len(w) > len(text) do continue;
+        check := text[i:i+len(w)];
+        if strings.compare(check, w) == 0 {
+            p2_count += 1;
+            for j in 0..<len(w) {
+                found[i + j] = {};
+            }
+        }
+    }
+
+    strings.write_int(p2, len(found));
+    fmt.println("    -------------------------");
+
     strings.write_string(p3, "Upcoming...");
 
     /*
@@ -54,16 +80,16 @@ d2run :: proc (p1, p2, p3: ^strings.Builder) {
 
 when EXAMPLE {
 @(private="file")
-    P1_IN :: "WORDS:THE,OWE,MES,ROD,HER\n\nAWAKEN THE POWER ADORNED WITH THE FLAMES BRIGHT IRE"
+    P1_IN :: "../data/day02.ex.p1.txt"
 @(private="file")
-    P2_IN :: "WORDS:THE,OWE,MES,ROD,HER,QAQ\n\nAWAKEN THE POWE ADORNED WITH THE FLAMES BRIGHT IRE"
+    P2_IN :: "../data/day02.ex.p2.txt"
 @(private="file")
-    P3_IN :: ""
+    P3_IN :: "../data/day02.ex.p3.txt"
 } else {
 @(private="file")
-    P1_IN :: "WORDS:LOR,LL,SI,OR,DO,UT,LI\n\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE MAGNA ALIQUA. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT. DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE VELIT ESSE CILLUM DOLORE EU FUGIAT NULLA PARIATUR. EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA DESERUNT MOLLIT ANIM ID EST LABORUM."
+    P1_IN :: "../data/day02.p1.txt"
 @(private="file")
-    P2_IN :: ""
+    P2_IN :: "../data/day02.p2.txt"
 @(private="file")
-    P3_IN :: ""
+    P3_IN :: "../data/day02.p3.txt"
 }
