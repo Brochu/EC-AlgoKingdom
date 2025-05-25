@@ -56,7 +56,7 @@ when EXAMPLE {
 @(private="file")
     P1_IN :: "WORDS:THE,OWE,MES,ROD,HER\n\nAWAKEN THE POWER ADORNED WITH THE FLAMES BRIGHT IRE"
 @(private="file")
-    P2_IN :: ""
+    P2_IN :: "WORDS:THE,OWE,MES,ROD,HER,QAQ\n\nAWAKEN THE POWE ADORNED WITH THE FLAMES BRIGHT IRE"
 @(private="file")
     P3_IN :: ""
 } else {
