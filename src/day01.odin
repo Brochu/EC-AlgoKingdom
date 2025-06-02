@@ -4,15 +4,27 @@ import "core:fmt"
 import "core:slice"
 import "core:strconv"
 import "core:strings"
-import rl "vendor:raylib"
 
 d1run :: proc (p1, p2, p3: ^strings.Builder) {
-    p1_input := strings.trim(#load(P1_IN, string), "\r\n");
-    p2_input := strings.trim(#load(P2_IN, string), "\r\n");
-    p3_input := strings.trim(#load(P3_IN, string), "\r\n");
+    when EXAMPLE {
+        P1_IN :: "../data/day01.ex.p1.txt"
+        P2_IN :: "../data/day01.ex.p2.txt"
+        P3_IN :: "../data/day01.ex.p3.txt"
+    } else {
+        P1_IN :: "../data/day01.p1.txt"
+        P2_IN :: "../data/day01.p2.txt"
+        P3_IN :: "../data/day01.p3.txt"
+    }
 
+    solve_p1(strings.trim(#load(P1_IN, string), "\r\n"), p1);
+    solve_p2(strings.trim(#load(P2_IN, string), "\r\n"), p2);
+    solve_p3(strings.trim(#load(P3_IN, string), "\r\n"), p3);
+}
+
+@(private="file")
+solve_p1 :: proc(input: string, out: ^strings.Builder) {
     pot_count := 0;
-    for r in p1_input {
+    for r in input {
         if r == 'A' {
         }
         else if r == 'B' {
@@ -22,11 +34,14 @@ d1run :: proc (p1, p2, p3: ^strings.Builder) {
             pot_count += 3;
         }
     }
-    strings.write_int(p1, pot_count);
+    strings.write_int(out, pot_count);
+}
 
-    pot_count = 0;
-    for i in 0..<len(p2_input)/2 {
-        group := p2_input[i*2:(i*2) + 2];
+@(private="file")
+solve_p2 :: proc(input: string, out: ^strings.Builder) {
+    pot_count := 0;
+    for i in 0..<len(input)/2 {
+        group := input[i*2:(i*2) + 2];
         first := group[0];
         second := group[1];
 
@@ -50,11 +65,14 @@ d1run :: proc (p1, p2, p3: ^strings.Builder) {
             }
         }
     }
-    strings.write_int(p2, pot_count);
+    strings.write_int(out, pot_count);
+}
 
-    pot_count = 0;
-    for i in 0..<len(p3_input)/3 {
-        group := p3_input[i*3:(i*3) + 3];
+@(private="file")
+solve_p3 :: proc(input: string, out: ^strings.Builder) {
+    pot_count := 0;
+    for i in 0..<len(input)/3 {
+        group := input[i*3:(i*3) + 3];
 
         monsters := [4]int { 0, 0, 0, 0 };
         xs := 0;
@@ -68,33 +86,5 @@ d1run :: proc (p1, p2, p3: ^strings.Builder) {
         pot_count += monsters[2] * (3 + mod);
         pot_count += monsters[3] * (5 + mod);
     }
-    strings.write_int(p3, pot_count);
-
-    /*
-    rl.InitWindow(800, 600, strings.to_cstring(&title));
-    rl.SetTargetFPS(60);
-    for !rl.WindowShouldClose() {
-        rl.BeginDrawing();
-        rl.ClearBackground(rl.BLACK);
-
-        rl.EndDrawing();
-    }
-    rl.CloseWindow();
-    */
-}
-
-when EXAMPLE {
-@(private="file")
-    P1_IN :: "../data/day01.ex.p1.txt"
-@(private="file")
-    P2_IN :: "../data/day01.ex.p2.txt"
-@(private="file")
-    P3_IN :: "../data/day01.ex.p3.txt"
-} else {
-@(private="file")
-    P1_IN :: "../data/day01.p1.txt"
-@(private="file")
-    P2_IN :: "../data/day01.p2.txt"
-@(private="file")
-    P3_IN :: "../data/day01.p3.txt"
+    strings.write_int(out, pot_count);
 }

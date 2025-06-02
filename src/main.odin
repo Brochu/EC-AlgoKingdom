@@ -12,7 +12,7 @@ EXAMPLE :: #config(EXAMPLE, false)
 day_proc :: proc(p1, p2, p3: ^strings.Builder)
 solutions: []day_proc = {
     d0run,
-    d1run, d2run,
+    d1run, d2run, d3run,
     //d1run, d2run, d3run, d4run, d5run,
     //d6run, d7run, d8run, d9run, d10run,
     //d11run, d12run, d13run, d14run, d15run,

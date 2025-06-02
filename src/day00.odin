@@ -4,40 +4,34 @@ import "core:fmt"
 import "core:slice"
 import "core:strconv"
 import "core:strings"
-import rl "vendor:raylib"
 
 d0run :: proc (p1, p2, p3: ^strings.Builder) {
-    fmt.println(P1_IN);
-
-    strings.write_string(p1, "Upcoming...");
-    strings.write_string(p2, "Upcoming...");
-    strings.write_string(p3, "Upcoming...");
-
-    /*
-    rl.InitWindow(800, 600, strings.to_cstring(&title));
-    rl.SetTargetFPS(60);
-    for !rl.WindowShouldClose() {
-        rl.BeginDrawing();
-        rl.ClearBackground(rl.BLACK);
-
-        rl.EndDrawing();
+    when EXAMPLE {
+        P1_IN :: ""
+        P2_IN :: ""
+        P3_IN :: ""
+    } else {
+        P1_IN :: ""
+        P2_IN :: ""
+        P3_IN :: ""
     }
-    rl.CloseWindow();
-    */
+
+    solve_p1(P1_IN, p1);
+    solve_p2(P2_IN, p2);
+    solve_p3(P3_IN, p3);
 }
 
-when EXAMPLE {
 @(private="file")
-    P1_IN :: ""
+solve_p1 :: proc(input: string, out: ^strings.Builder) {
+    strings.write_string(out, "Upcoming...");
+}
+
 @(private="file")
-    P2_IN :: ""
+solve_p2 :: proc(input: string, out: ^strings.Builder) {
+    strings.write_string(out, "Upcoming...");
+}
+
 @(private="file")
-    P3_IN :: ""
-} else {
-@(private="file")
-    P1_IN :: ""
-@(private="file")
-    P2_IN :: ""
-@(private="file")
-    P3_IN :: ""
+solve_p3 :: proc(input: string, out: ^strings.Builder) {
+    strings.write_string(out, "Upcoming...");
 }
